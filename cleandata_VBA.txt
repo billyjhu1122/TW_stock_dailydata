@@ -1,4 +1,4 @@
-Sub lotscleandata()
+Sub cleandata()
 
     Dim ws As Worksheet
     Dim lastRow As Long
@@ -22,22 +22,22 @@ Sub lotscleandata()
     Dim rs As Object
     Dim sql As String
 
-    ' è¨­å®š CSV æª”æ¡ˆæ‰€åœ¨çš„ç›®éŒ„
+    ' è¨­å?? CSV æª?æ¡??????¨ç????®é??
     csv_directory = "D:\taiwan_stock_DailyQuotes_20040211_20240322_cleandata" 
     
-    ' æª¢æŸ¥ç›®éŒ„æ˜¯å¦å­˜åœ¨
+    ' æª¢æ?¥ç?®é????¯å?¦å?????
     If Dir(csv_directory, vbDirectory) = "" Then
-        MsgBox "æŒ‡å®šçš„ç›®éŒ„ä¸å­˜åœ¨ï¼", vbExclamation
+        MsgBox "???å®??????®é??ä¸?å­???¨ï??", vbExclamation
         Exit Sub
     End If
     
 
 
 
-    ' å¾ªç’°è™•ç†ç›®éŒ„ä¸­çš„æ¯å€‹ CSV æª”æ¡ˆ
+    ' å¾ªç?°è???????®é??ä¸­ç??æ¯???? CSV æª?æ¡?
     csv_file = Dir(csv_directory & "\*.csv")
     Do While csv_file <> ""
-        ' æ‰“é–‹ CSV æª”æ¡ˆ
+        ' ?????? CSV æª?æ¡?
         Set wb = Workbooks.Open(Filename:=csv_directory & "\" & csv_file)
         Set ws = wb.Sheets(1)
 
@@ -46,10 +46,10 @@ Sub lotscleandata()
 
 
 
-        ' å…ˆæŠŠä¸Šä¸‹ä¸é‡è¦è³‡æ–™æ¸…é™¤
+        ' ??????ä¸?ä¸?ä¸????è¦?è³????æ¸????
 
         For i = 1 To lastRow
-            If ws.Cells(i, 1).Value = "è­‰åˆ¸ä»£è™Ÿ" Then
+            If ws.Cells(i, 1).Value = "è­???¸ä»£???" Then
                 importantStartRow = i
                 Exit For
             End If
@@ -58,7 +58,7 @@ Sub lotscleandata()
         ws.Rows("1:" & importantStartRow - 1).EntireRow.Delete
     
         For i = importantStartRow To lastRow
-            If ws.Cells(i, 1).Value = "å‚™è¨»:" Then
+            If ws.Cells(i, 1).Value = "???è¨?:" Then
                 importantEndRow = i - 1
                 Exit For
             End If
@@ -70,17 +70,17 @@ Sub lotscleandata()
         ws.Rows(importantEndRow + 1 & ":" & lastRow).EntireRow.Delete
 
 
-        ' ç¼ºåˆªé™¤ç¬¬äºŒæ¬„
+        ' ç¼ºå?ªé?¤ç¬¬äº?æ¬?
         ws.Columns(2).Delete
 
 
 
-        ' å®šç¾©ä¸­æ–‡åˆ°è‹±æ–‡çš„ç¿»è­¯å­—å…¸
+        ' å®?ç¾©ä¸­?????°è?±æ?????ç¿»è­¯å­????
         Set translationDict = CreateObject("Scripting.Dictionary")
-        chineseNames = Array("è­‰åˆ¸ä»£è™Ÿ", "è­‰åˆ¸åç¨±", "æˆäº¤è‚¡æ•¸", "æˆäº¤ç­†æ•¸",  _
-                             "æˆäº¤é‡‘é¡", "é–‹ç›¤åƒ¹", "æœ€é«˜åƒ¹", "æœ€ä½åƒ¹",  _
-                             "æ”¶ç›¤åƒ¹", "æ¼²è·Œ(+/-)", "æ¼²è·Œåƒ¹å·®", "æœ€å¾Œæ­ç¤ºè²·åƒ¹",  _
-                             "æœ€å¾Œæ­ç¤ºè²·é‡", "æœ€å¾Œæ­ç¤ºè³£åƒ¹", "æœ€å¾Œæ­ç¤ºè³£é‡", "æœ¬ç›Šæ¯”")
+        chineseNames = Array("è­???¸ä»£???", "è­???¸å??ç¨?", "???äº¤è?¡æ??", "???äº¤ç?????",  _
+                             "???äº¤é??é¡?", "?????¤å??", "???é«????", "???ä½????",  _
+                             "??¶ç?¤å??", "æ¼²è??(+/-)", "æ¼²è????¹å·®", "???å¾???­ç¤ºè²·å??",  _
+                             "???å¾???­ç¤ºè²·é??", "???å¾???­ç¤ºè³????", "???å¾???­ç¤ºè³????", "??¬ç??æ¯?")
         englishNames = Array("Security Code", "Security Name", "Volume Traded", "Number of Trades",  _
                             "Transaction Amount", "Opening Price", "Highest Price", "Lowest Price",  _
                             "Closing Price", "Change (+/-)", "Price Change", "Final Bid Price",  _
@@ -89,7 +89,7 @@ Sub lotscleandata()
             translationDict.Add chineseNames(i), englishNames(i)
         Next i
     
-        ' å°‡è®Šæ•¸åç¨±å¾ä¸­æ–‡ç¿»è­¯ç‚ºè‹±æ–‡
+        ' å°?è®???¸å??ç¨±å??ä¸­æ??ç¿»è­¯??ºè?±æ??
         For Each cell In ws.Rows(1).SpecialCells(xlCellTypeConstants)
             If translationDict.Exists(cell.Value) Then
                 cell.Value = translationDict(cell.Value)
@@ -97,7 +97,7 @@ Sub lotscleandata()
         Next cell
 
 
-       ' æ›¿ä»£--
+       ' ??¿ä»£--
         Cells.Replace What:="--", Replacement:="", LookAt:=xlPart, SearchOrder _
             :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False _
             , FormulaVersion:=xlReplaceFormula2
@@ -107,7 +107,7 @@ Sub lotscleandata()
        lw = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
 
 
-       ' æ¸…ç†è‚¡ç¥¨åç¨±çš„è³‡æ–™
+       ' æ¸??????¡ç¥¨???ç¨±ç??è³????
        ws.Range("B1:B" & lw).Select
        Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
        Range("A1").Select
@@ -132,7 +132,7 @@ Sub lotscleandata()
 
 
        
-       ' å°‡è®Šæ•¸æ ¼å¼çµ±ä¸€
+       ' å°?è®???¸æ?¼å??çµ±ä??
        ws.Range("A1:A" & lw).Select
        Selection.NumberFormatLocal = "@"
        ws.Range("B1:B" & lw).Select
@@ -165,10 +165,10 @@ Sub lotscleandata()
        Selection.NumberFormatLocal = "0.00"
        
        
-       ' é—œé–‰ CSV æª”æ¡ˆ
+       ' ?????? CSV æª?æ¡?
        wb.Close SaveChanges:=True
         
-       ' ç¹¼çºŒè™•ç†ä¸‹ä¸€å€‹ CSV æª”æ¡ˆ
+       ' ç¹¼ç????????ä¸?ä¸???? CSV æª?æ¡?
        csv_file = Dir
     Loop
 
